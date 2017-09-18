@@ -1,16 +1,15 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const https = require("https");
-const youtubeKey = "AIzaSyDUtR5cQUZppxWisSd5Eevm_gUbH0TpdcI";
-
+const youtubeKey = "********************";
 
 //Adds plus reaction to gifs and images
 
 client.on("message", (message) => {
-  // if (message.content.startsWith("https://gfycat.com") || message.content.startsWith("https://i.imgur.com")) {
+  if (message.content.includes("gfycat.com") || message.content.includes("imgur.com")) {
     message.react("359459661218316290");
-  });
-// });
+  }
+});
 
 //Random picture from subreddit
 
@@ -58,4 +57,4 @@ client.on("ready", () => {
   console.log("I am ready!");
 });
 
-client.login("MzU4NzQ0MTY0NDQ5NjQ4NjQw.DJ86Hw.m3RWdco_XRaol2NwjNQlg23p47k");
+client.login("***************************************");
