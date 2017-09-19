@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const https = require("https");
 const express = require("express");
 const md5 = require("md5");
-const youtubeKey = "AIzaSyDUtR5cQUZppxWisSd5Eevm_gUbH0TpdcI";
+const youtubeKey = "**********";
 
 //Adds plus reaction to gifs and images
 
@@ -45,8 +45,8 @@ client.on ("message", (message) => {
       var tag = message.content
         .replace("#", "")
         .replace(" ", "");
-      let md = md5("vWWKRJPaMp" + "https://a.wykop.pl/tag/" + tag + "/appkey/R8Mt7klFvN,format,json");
-      let url = '/tag/' + tag + '/appkey/R8Mt7klFvN,format,json';
+      let md = md5("********" + "https://a.wykop.pl/tag/" + tag + "/appkey/******,format,json");
+      let url = '/tag/' + tag + '/appkey/********,format,json';
       let options = {
         hostname: 'a.wykop.pl',
         path: url,
@@ -101,4 +101,4 @@ client.on("ready", () => {
   console.log("I am ready!");
 });
 
-client.login("MzU4NzQ0MTY0NDQ5NjQ4NjQw.DJ86Hw.m3RWdco_XRaol2NwjNQlg23p47k");
+client.login("*******");
