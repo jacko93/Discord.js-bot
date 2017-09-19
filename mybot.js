@@ -1,7 +1,9 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const https = require("https");
-const youtubeKey = "********************";
+const express = require("express");
+const md5 = require("md5");
+const youtubeKey = "AIzaSyDUtR5cQUZppxWisSd5Eevm_gUbH0TpdcI";
 
 //Adds plus reaction to gifs and images
 
@@ -26,9 +28,49 @@ client.on("message", (message) => {
       res.on("end", () => {
         body = JSON.parse(body);
         JSON.stringify(body);
+        if (body.error == "403") {
+        message.channel.send("This subreddit is private! :(");
+        } else {
         message.channel.send(body.data.children[random].data.url);
+      }
         });
       });
+    }
+});
+
+
+//Wykop.pl API
+client.on ("message", (message) => {
+  if (message.content.startsWith("#")) {
+      var tag = message.content
+        .replace("#", "")
+        .replace(" ", "");
+      let md = md5("vWWKRJPaMp" + "https://a.wykop.pl/tag/" + tag + "/appkey/R8Mt7klFvN,format,json");
+      let url = '/tag/' + tag + '/appkey/R8Mt7klFvN,format,json';
+      let options = {
+        hostname: 'a.wykop.pl',
+        path: url,
+        method: 'GET',
+        headers: {
+          "apisign": md
+        }
+      }
+  https.get(options, res => {
+    res.setEncoding("utf8");
+    let body = "";
+    res.on("data", data => { body += data; });
+    res.on("end", () => {
+      body = JSON.parse(body);
+      JSON.stringify(body);
+      if (body.items[0] == null || body.items[0].url == null) {
+        message.channel.send("Nie ma nowych wpisów :(");
+      } else if (body.items[0].embed.url == null) {
+        message.channel.send(body.items[0].body);
+      } else {
+        message.channel.send(body.items[0].embed.url);
+      }
+    });
+  });
   }
 });
 
@@ -45,9 +87,11 @@ client.on("message", (message) => {
       let body = "";
       res.on("data", data => { body += data; });
       res.on("end", () => {
+        var z = 0;
         body = JSON.parse(body);
         JSON.stringify(body);
-        message.channel.send("https://www.youtube.com/watch?v=" + body.items[0].id.videoId);
+        while (body.items[z].id.videoId == null) { z++; }
+        message.channel.send("https://www.youtube.com/watch?v=" + body.items[z].id.videoId);
       });
     });
   }
@@ -57,4 +101,4 @@ client.on("ready", () => {
   console.log("I am ready!");
 });
 
-client.login("***************************************");
+client.login("MzU4NzQ0MTY0NDQ5NjQ4NjQw.DJ86Hw.m3RWdco_XRaol2NwjNQlg23p47k");
